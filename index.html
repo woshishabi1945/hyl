@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alex & Sarah的时光纪念册</title>
+    <style>
+        :root {
+            --primary-blue: #89CFF0;
+            --primary-pink: #FFB6C1;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        /* 基础样式 */
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            background: #f8f9fa;
+            color: #444;
+            margin: 0;
+        }
+
+        /* 导航栏 */
+        .nav-container {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.95);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+        .nav-menu {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+        }
+        .nav-menu a {
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+        .nav-menu a:hover {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-pink));
+            color: white;
+        }
+
+        /* 主内容区 */
+        main {
+            margin-top: 120px;
+            padding: 2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* 新增：进度条样式 */
+        .progress-bar {
+            height: 15px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, 
+                var(--primary-blue), 
+                var(--primary-pink));
+            border-radius: 8px;
+            transition: width 1s ease-out;
+            position: relative;
+        }
+        .progress::after {
+            content: attr(data-percent);
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        /* 共同点模块 */
+        .similarities {
+            margin: 4rem 0;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--primary-pink));
+        }
+
+        /* 照片墙 */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .gallery-item {
+            border-radius: 10px;
+            overflow: hidden;
+            aspect-ratio: 1;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+            cursor: pointer; /* 添加手型指针 */
+        }
+        .gallery-item:hover {
+            transform: translateY(-5px);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 模态窗口样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+        }
+
+        /* 精确计时器 */
+        .precision-timer {
+            background: linear-gradient(135deg, 
+                rgba(137, 207, 240, 0.9),
+                rgba(255, 182, 193, 0.9));
+            color: white;
+            padding: 3rem 1rem;
+            margin: 4rem 0;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        .time-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: 2rem auto;
+        }
+        .time-unit {
+            background: rgba(255,255,255,0.15);
+            padding: 1.5rem;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            text-align: center;
+        }
+        .time-number {
+            font-size: 2.5rem;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .time-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+      .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.gallery-item {
+    text-align: center; /* 让文字居中 */
+}
+
+.gallery-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.gallery-item figcaption {
+    font-size: 1rem;
+    color: #444;
+    margin-top: 5px;
+}
+        /* 成就墙 */
+        .achievements {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+        .achievement-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .achievement-card:hover {
+            transform: translateY(-5px);
+        }
+        .achievement-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* 响应式优化 */
+        @media (max-width: 768px) {
+            .nav-menu {
+                gap: 1rem;
+                flex-wrap: wrap;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+            .time-number {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="nav-container">
+        <div class="nav-menu">
+            <a href="#similarities">共同点</a>
+            <a href="#gallery">相册</a>
+            <a href="#achievements">成就</a>
+            <a href="#timer">计时</a>
+        </div>
+    </nav>
+
+    <main>
+        <!-- 共同点模块 -->
+        <section id="similarities" class="similarities">
+            <h2 class="section-title">我们的默契领域</h2>
+            <div class="achievements">
+                <div class="achievement-card">
+                    <div class="achievement-icon">📱</div>
+                    <h3>游戏类型</h3>
+                    <div class="progress-bar">
+                        <div class="progress" 
+                             style="width: 100%"
+                             data-percent="100%"></div>
+                    </div>
+                    <p>共同喜爱同种类型游戏</p>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">🥀</div>
+                    <h3>心痛的过往相似度</h3>
+                    <div class="progress-bar">
+                        <div class="progress" 
+                             style="width: 90%"
+                             data-percent="90%"></div>
+                    </div>
+                    <p></p>
+                </div>
+                            <div class="achievement-card">
+                    <div class="achievement-icon">🎥</div>
+                    <h3>视频类型</h3>
+                    <div class="progress-bar">
+                        <div class="progress" 
+                             style="width: 100%"
+                             data-percent="100%"></div>
+                    </div>
+                    <p>共同喜欢花.治愈类.回忆类.抽象类.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 照片墙 -->
+        <section id="gallery">
+            <h2 class="section-title">记忆相册</h2>
+<div class="gallery">
+    <div class="gallery-item" onclick="openModal('1.jpg')">
+        <img src="1.jpg" alt="我们的回忆">
+    </div>
+    <div class="gallery-item" onclick="openModal('2.jpg')">
+        <img src="2.jpg" alt="我们的回忆2">
+    </div>
+    <div class="gallery-item" onclick="openModal('3.jpg')">
+        <img src="3.jpg" alt="我们的回忆3">
+    </div>
+</div>
+</div>
+        </section>
+
+        <!-- 精确计时器 -->
+        <section id="timer" class="precision-timer">
+            <h2 class="section-title">我们已经认识了</h2>
+            <div class="time-grid">
+                <div class="time-unit">
+                    <div class="time-number" id="days">0</div>
+                    <div class="time-label">天</div>
+                </div>
+                <div class="time-unit">
+                    <div class="time-number" id="hours">0</div>
+                    <div class="time-label">小时</div>
+                </div>
+                <div class="time-unit">
+                    <div class="time-number" id="minutes">0</div>
+                    <div class="time-label">分钟</div>
+                </div>
+                <div class="time-unit">
+                    <div class="time-number" id="seconds">0</div>
+                    <div class="time-label">秒</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 成就墙 -->
+        <section id="achievements">
+            <h2 class="section-title">我们的成就</h2>
+            <div class="achievements">
+                <div class="achievement-card">
+                    <div class="achievement-icon">🏆</div>
+                    <h3>我的世界存档数</h3>
+                    <p>一起玩的存档已超23个</p>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">🚩</div>
+                    <h3>我的世界常玩存档大小</h3>
+                    <p>已超20Mb</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 模态窗口 -->
+    <div id="modal" class="modal" onclick="closeModal()">
+        <img id="modal-image" src="" alt="放大图片">
+    </div>
+
+    <script>
+        // 模态窗口功能
+        function openModal(imageUrl) {
+            const modal = document.getElementById('modal');
+            const modalImage = document.getElementById('modal-image');
+            modalImage.src = imageUrl;
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.style.display = 'none';
+        }
+
+// 设定起始日期（2023年6月30日）
+const startDate = new Date('2024-06-30T21:10:20');
+
+function updateTimer() {
+    const now = new Date();
+    const diff = now - startDate; // 计算时间差（毫秒）
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24)); // 计算天数
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); // 计算小时
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)); // 计算分钟
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000); // 计算秒数
+
+    // 更新 HTML 内容
+    document.getElementById('days').textContent = days.toString().padStart(3, '0');
+    document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+    document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+    document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+}
+
+// 立即执行一次
+updateTimer();
+
+// 每秒更新一次
+setInterval(updateTimer, 1000);
+    </script>
+</body>
+</html>
