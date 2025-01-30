@@ -109,7 +109,22 @@
             height: 3px;
             background: linear-gradient(90deg, var(--primary-blue), var(--primary-pink));
         }
+.gallery-item {
+    position: relative; /* 使文本绝对定位相对于图片 */
+}
 
+.gallery-text {
+    position: absolute;
+    top: 10px; /* 距离顶部的距离 */
+    left: 50%; /* 水平居中 */
+    transform: translateX(-50%); /* 调整居中 */
+    background: rgba(255, 255, 255, 0.7); /* 半透明背景 */
+    padding: 0.5rem; /* 内边距 */
+    border-radius: 5px; /* 圆角 */
+    text-align: center; /* 文本居中 */
+    color: #333; /* 文本颜色 */
+    font-weight: bold; /* 字体加粗 */
+}
         /* 照片墙 */
         .gallery {
             display: grid;
@@ -284,16 +299,24 @@
         <!-- 照片墙 -->
         <section id="gallery">
             <h2 class="section-title">记忆相册</h2>
-<div class="gallery">
-    <div class="gallery-item" onclick="openModal('1.jpg')">
-        <img src="1.jpg" alt="我们的回忆">
+<!-- 照片墙 -->
+<section id="gallery">
+    <h2 class="section-title">记忆相册</h2>
+    <div class="gallery">
+        <div class="gallery-item" onclick="openModal('1.jpg')">
+            <div class="gallery-text">这是一张描述文本</div>
+            <img src="1.jpg" alt="我们的回忆">
+        </div>
+        <div class="gallery-item" onclick="openModal('2.jpg')">
+            <div class="gallery-text">这是一张描述文本2</div>
+            <img src="2.jpg" alt="我们的回忆2">
+        </div>
+        <div class="gallery-item" onclick="openModal('3.jpg')">
+            <div class="gallery-text">这是一张描述文本3</div>
+            <img src="3.jpg" alt="我们的回忆3">
+        </div>
     </div>
-    <div class="gallery-item" onclick="openModal('2.jpg')">
-        <img src="2.jpg" alt="我们的回忆2">
-    </div>
-    <div class="gallery-item" onclick="openModal('3.jpg')">
-        <img src="3.jpg" alt="我们的回忆3">
-    </div>
+</section>
 </div>
 </div>
         </section>
