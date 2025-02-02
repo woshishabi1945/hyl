@@ -48,37 +48,48 @@ body {
 }
 
         /* 导航栏 */
-        .nav-container {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: var(--nav-bg);
-            box-shadow: var(--shadow);
-            z-index: 1000;
-            backdrop-filter: blur(5px);
-            transition: background 0.3s;
-        }
-        .nav-menu {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem;
-            display: flex;
-            gap: 2rem;
-            justify-content: center;
-            position: relative; /* 新增 */
-        }
-        .nav-menu a {
-            text-decoration: none;
-            color: #666;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            transition: all 0.3s;
-        }
-        .nav-menu a:hover {
-            background: linear-gradient(135deg, var(--primary-blue), var(--primary-pink));
-            color: white;
-        }
+/* 导航栏 */
+.nav-container {
+    position: fixed;
+    top: 10px; /* 让导航栏稍微离顶部远一点 */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 95%; /* 让导航栏更长 */
+    background: var(--nav-bg);
+    box-shadow: var(--shadow);
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+    transition: background 0.3s;
+    border-radius: 15px; /* 进一步减小圆角，让形状更扁平 */
+    padding: 3px 10px; /* 进一步缩小高度 */
+}
+
+/* 导航菜单 */
+.nav-menu {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0.4rem; /* 让菜单整体更扁 */
+    display: flex;
+    gap: 1rem; /* 调整菜单项间距 */
+    justify-content: center;
+    position: relative;
+}
+
+/* 导航链接 */
+.nav-menu a {
+    text-decoration: none;
+    color: #666;
+    font-weight: 500;
+    padding: 0.2rem 0.6rem; /* 进一步减少按钮高度 */
+    border-radius: 8px; /* 让按钮更圆润但不过分 */
+    transition: all 0.3s;
+    font-size: 0.9rem; /* 略微缩小字体，使整体更紧凑 */
+}
+
+.nav-menu a:hover {
+    background: linear-gradient(135deg, var(--primary-blue), var(--primary-pink));
+    color: white;
+}
 
         /* 新增设置面板样式 */
         .settings-panel {
